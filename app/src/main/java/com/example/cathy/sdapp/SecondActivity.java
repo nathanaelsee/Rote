@@ -22,49 +22,77 @@ public class SecondActivity extends AppCompatActivity {
                 goToCategoryXActivity(1);
             }
         });
+<<<<<<< HEAD
         Button button2 = (Button) findViewById(R.id.menu_cat2);
+=======
+        Button button2 = (Button) findViewById(R.id.button2);
+>>>>>>> refs/remotes/origin/master
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(2);
             }
         });
+<<<<<<< HEAD
         Button button3 = (Button) findViewById(R.id.menu_cat3);
+=======
+        Button button3 = (Button) findViewById(R.id.button3);
+>>>>>>> refs/remotes/origin/master
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(3);
             }
         });
+<<<<<<< HEAD
         Button button4 = (Button) findViewById(R.id.menu_cat4);
+=======
+        Button button4 = (Button) findViewById(R.id.button4);
+>>>>>>> refs/remotes/origin/master
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(4);
             }
         });
+<<<<<<< HEAD
         Button button5 = (Button) findViewById(R.id.menu_cat5);
+=======
+        Button button5 = (Button) findViewById(R.id.button5);
+>>>>>>> refs/remotes/origin/master
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(5);
             }
         });
+<<<<<<< HEAD
         Button button6 = (Button) findViewById(R.id.menu_cat6);
+=======
+        Button button6 = (Button) findViewById(R.id.button6);
+>>>>>>> refs/remotes/origin/master
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(6);
             }
         });
+<<<<<<< HEAD
         Button button7 = (Button) findViewById(R.id.menu_cat7);
+=======
+        Button button7 = (Button) findViewById(R.id.button7);
+>>>>>>> refs/remotes/origin/master
         button7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(7);
             }
         });
+<<<<<<< HEAD
         Button button8 = (Button) findViewById(R.id.menu_cat8);
+=======
+        Button button8 = (Button) findViewById(R.id.button8);
+>>>>>>> refs/remotes/origin/master
         button8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
