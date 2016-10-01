@@ -23,49 +23,49 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
         Button button2 = (Button) findViewById(R.id.button2);
-        button1.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(2);
             }
         });
         Button button3 = (Button) findViewById(R.id.button3);
-        button1.setOnClickListener(new View.OnClickListener() {
+        button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(3);
             }
         });
         Button button4 = (Button) findViewById(R.id.button4);
-        button1.setOnClickListener(new View.OnClickListener() {
+        button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(4);
             }
         });
         Button button5 = (Button) findViewById(R.id.button5);
-        button1.setOnClickListener(new View.OnClickListener() {
+        button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(5);
             }
         });
         Button button6 = (Button) findViewById(R.id.button6);
-        button1.setOnClickListener(new View.OnClickListener() {
+        button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(6);
             }
         });
         Button button7 = (Button) findViewById(R.id.button7);
-        button1.setOnClickListener(new View.OnClickListener() {
+        button7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(7);
             }
         });
         Button button8 = (Button) findViewById(R.id.button8);
-        button1.setOnClickListener(new View.OnClickListener() {
+        button8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToCategoryXActivity(8);
