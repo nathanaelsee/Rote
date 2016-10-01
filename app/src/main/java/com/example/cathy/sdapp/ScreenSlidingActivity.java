@@ -16,6 +16,9 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScreenSlidingActivity extends FragmentActivity {
     /**
      * The number of pages (wizard steps) to show in this demo.
@@ -38,9 +41,11 @@ public class ScreenSlidingActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewpager);
 
+        List<Fragment> fragments = getFragments();
+
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), fragments);
         mPager.setAdapter(mPagerAdapter);
     }
 
@@ -61,18 +66,29 @@ public class ScreenSlidingActivity extends FragmentActivity {
      * sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+        private List<Fragment> fragments;
+
+        public ScreenSlidePagerAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
+            this.fragments = fragments;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return new SlidingActivity();
+            return this.fragments.get(position);
         }
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return this.fragments.size();
         }
+    }
+
+    private List<Fragment> getFragments(){
+        List<Fragment> fList = new ArrayList<Fragment>();
+
+        fList.add(SlidingActivity.newInstance());
+
+        return fList;
     }
 }
