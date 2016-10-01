@@ -23,7 +23,17 @@
         <activity android:name=".CategoryFiveActivity" />
         <activity android:name=".CategorySixActivity" />
         <activity android:name=".CategorySevenActivity" />
-        <activity android:name=".CategoryEightActivity"></activity>
+        <activity android:name=".CategoryEightActivity" />
+        <activity
+            android:name=".QuizActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_quiz"
+            android:parentActivityName=".SecondActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cathy.sdapp.SecondActivity" />
+        </activity>
     </application>
 
 </manifest>

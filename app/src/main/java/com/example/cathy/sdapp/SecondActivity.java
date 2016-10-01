@@ -74,8 +74,8 @@ public class SecondActivity extends AppCompatActivity {
     }
 
     private void goToCategoryXActivity(int x) {
-        Intent quizIntent = new Intent(this, CategoryEightActivity.class);
-        quizIntent.putExtra("Category", x);
+        Intent quizIntent = new Intent(this, QuizActivity.class);
+        quizIntent.putExtra("CATEGORY", x);
         startActivity(quizIntent);
     }
 }
