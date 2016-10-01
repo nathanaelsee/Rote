@@ -16,14 +16,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SecondActivity" />
-        <activity android:name=".CategoryOneActivity" />
-        <activity android:name=".CategoryTwoActivity" />
-        <activity android:name=".CategoryThreeActivity" />
-        <activity android:name=".CategoryFourActivity" />
-        <activity android:name=".CategoryFiveActivity" />
-        <activity android:name=".CategorySixActivity" />
-        <activity android:name=".CategorySevenActivity" />
-        <activity android:name=".CategoryEightActivity" />
         <activity
             android:name=".QuizActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
