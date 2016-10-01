@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_second"
     android:layout_width="match_parent"
@@ -8,91 +8,99 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.example.cathy.sdapp.SecondActivity">
 
-    <Button
-        android:text="Category 1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="26dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="66dp"
-        android:id="@+id/button1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-    <Button
-        android:text="Category 3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button1"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignStart="@+id/button1"
-        android:layout_marginTop="46dp"
-        android:id="@+id/button3" />
+        <Button
+            android:text="Category 1"
+            android:layout_margin="16dp"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/menu_cat1"
+            android:layout_weight="1"/>
 
-    <Button
-        android:text="Category 5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button5"
-        android:layout_alignBaseline="@+id/button6"
-        android:layout_alignBottom="@+id/button6"
-        android:layout_alignRight="@+id/button1"
-        android:layout_alignEnd="@+id/button1" />
+        <Button
+            android:text="Category 2"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/menu_cat2"
+            android:layout_weight="1"
+            android:layout_margin="16dp"/>
+    </LinearLayout>
 
-    <Button
-        android:text="Category 7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button5"
-        android:layout_alignLeft="@+id/button5"
-        android:layout_alignStart="@+id/button5"
-        android:layout_marginTop="50dp"
-        android:id="@+id/button7" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-    <Button
-        android:text="Category 8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button8"
-        android:layout_alignBaseline="@+id/button7"
-        android:layout_alignBottom="@+id/button7"
-        android:layout_alignLeft="@+id/button4"
-        android:layout_alignStart="@+id/button4" />
+        <Button
+            android:text="Category 3"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/menu_cat3"
+            android:layout_weight="1"
+            android:layout_margin="16dp"/>
 
-    <Button
-        android:text="Categoy 6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
-        android:id="@+id/button6"
-        android:layout_below="@+id/button4"
-        android:layout_alignLeft="@+id/button8"
-        android:layout_alignStart="@+id/button8" />
+        <Button
+            android:text="Category 4"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/menu_cat4"
+            android:layout_weight="1"
+            android:layout_margin="16dp"/>
+    </LinearLayout>
 
-    <Button
-        android:text="Category 4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button4"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_alignRight="@+id/button2"
-        android:layout_alignEnd="@+id/button2"
-        android:layout_marginRight="13dp"
-        android:layout_marginEnd="13dp"
-        android:layout_alignTop="@+id/button3" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-    <Button
-        android:text="Category 2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_toRightOf="@+id/button5"
-        android:layout_toEndOf="@+id/button5"
-        android:layout_marginLeft="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_alignTop="@+id/button1" />
-</RelativeLayout>
+        <Button
+            android:text="Category 5"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/menu_cat5"
+            android:layout_weight="1"
+            android:layout_margin="16dp"/>
+
+        <Button
+            android:text="Category 6"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/menu_cat6"
+            android:layout_weight="1"
+            android:layout_margin="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:text="Category 7"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/menu_cat7"
+            android:layout_weight="1"
+            android:layout_margin="16dp"/>
+
+        <Button
+            android:text="Category 8"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/menu_cat8"
+            android:layout_weight="1"
+            android:layout_margin="16dp"/>
+    </LinearLayout>
+
+</LinearLayout>
