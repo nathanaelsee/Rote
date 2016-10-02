@@ -38,6 +38,7 @@ public class QuizActivity extends AppCompatActivity {
     private float startPos = 0;
     private int index = 0, maxIndex, score = -1;
     private boolean[] doneIndexes;
+    boolean tiltReset = true;
     public String[] cat1 = {"Object",
             "Class",
             "Inheritance",
@@ -135,7 +136,6 @@ public class QuizActivity extends AppCompatActivity {
             "Expression",
             "Primitive"};
     public String[][] categories = {cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8};
-    boolean tiltReset = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,7 +190,7 @@ public class QuizActivity extends AppCompatActivity {
                 int rawZ = (int) event.values[2];
                 final int zTilt = rawZ / 5;
 
-                if(!tiltReset && zTilt == 0 && index < maxIndex) {tiltReset=true;}
+                if(!tiltReset && zTilt == 0 && index <= maxIndex ) {tiltReset=true;}
 
                 final Handler handler = new Handler();
 
@@ -209,7 +209,7 @@ public class QuizActivity extends AppCompatActivity {
                 };
 
 
-                if (!finished && zTilt < 0 && tiltReset && index < maxIndex) {
+                if (!finished && zTilt < 0 && tiltReset && index <= maxIndex ) {
                     tiltReset = false;
                     mControlsView.setVisibility(View.INVISIBLE);
                     cardDone.setVisibility(View.VISIBLE);
@@ -217,9 +217,10 @@ public class QuizActivity extends AppCompatActivity {
                     v.vibrate(100);
                     handler.postDelayed(run, 500);
                     changeQuestion(randomQuestion(category));
+                    index++;
                 }
 
-                if (!finished && zTilt > 0 && tiltReset && index < maxIndex) {
+                if (!finished && zTilt > 0 && tiltReset && index <= maxIndex) {
                     tiltReset = false;
                     mControlsView.setVisibility(View.INVISIBLE);
                     skipCard.setVisibility(View.VISIBLE);
@@ -227,13 +228,16 @@ public class QuizActivity extends AppCompatActivity {
                     v.vibrate(100);
                     handler.postDelayed(run, 500);
                     changeQuestion(randomQuestion(category));
+                    index++;
                 }
 
-                if (index == maxIndex) {
+                if (index == maxIndex-1) {
+                    System.out.print(index);
                     mControlsView.setVisibility(View.INVISIBLE);
                     gameWon.setVisibility(View.VISIBLE);
                     gameWon.setText("Finished!\nScore: " + score);
                     finished = true;
+//                    index++;
                     gameWon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -283,7 +287,7 @@ public class QuizActivity extends AppCompatActivity {
         while(doneIndexes[rand]){
             rand = random.nextInt(maxIndex);
         }
-        index++;
+//        index++;
         doneIndexes[rand] = true;
         return categories[category][rand];
     }
@@ -297,7 +301,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void increaseScore(){
-        if(!finished) score++;
+        if(index<=maxIndex) score++;
         quizScore.setText("Score: " + score);
     }
 }
