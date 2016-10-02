@@ -19,6 +19,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.Random;
+
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -29,9 +32,10 @@ public class QuizActivity extends AppCompatActivity {
     private SensorManager mSensorManager;
     private Sensor accelerometer;
     private Sensor magnetometer;
-    public Boolean finished = false;
-    public float startPos = 0;
-    public int index = 0;
+    private Boolean finished = false;
+    private float startPos = 0;
+    private int index = 0, maxIndex;
+    private boolean[] doneIndexes;
     public String[] cat1 = {"Object",
             "Class",
             "Inheritance",
@@ -129,15 +133,6 @@ public class QuizActivity extends AppCompatActivity {
             "Expression",
             "Primitive"};
     public String[][] categories = {cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8};
-
-
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            return false;
-        }
-    };
-
     boolean tiltReset = true;
 
     @Override
@@ -154,6 +149,11 @@ public class QuizActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         final int category = intent.getIntExtra("CATEGORY", 0);
+        maxIndex = categories[category].length;
+        doneIndexes = new boolean[maxIndex];
+        Arrays.fill(doneIndexes, false);
+
+
         quizQuestionField = (TextView) findViewById(R.id.quiz_question);
         cardDone = (TextView) findViewById(R.id.green_screen);
         gameOver = (TextView) findViewById(R.id.game_lost);
@@ -161,9 +161,9 @@ public class QuizActivity extends AppCompatActivity {
         cardDone.setVisibility(View.INVISIBLE);
         gameOver.setVisibility(View.INVISIBLE);
         gameWon.setVisibility(View.INVISIBLE);
-        quizQuestionField.setText(categories[category][index]);
-        index ++;
         quizTimer = (TextView) findViewById(R.id.quiz_timer);
+
+        changeQuestion(randomQuestion(category));
 
         // hide status bar
         mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
@@ -183,7 +183,7 @@ public class QuizActivity extends AppCompatActivity {
                 int rawZ = (int) event.values[2];
                 int zTilt = rawZ / 5;
 
-                if(!tiltReset && zTilt==0 && index!=categories[0].length) {tiltReset=true;}
+                if(!tiltReset && zTilt == 0 && index < maxIndex) {tiltReset=true;}
 
                 final Handler handler = new Handler();
 
@@ -195,24 +195,19 @@ public class QuizActivity extends AppCompatActivity {
                     }
                 };
 
-                if ((!finished && zTilt < 0) && tiltReset && (index < categories[0].length)) {
+                if (!finished && zTilt < 0 && tiltReset && index < maxIndex) {
                     tiltReset = false;
                     mControlsView.setVisibility(View.INVISIBLE);
                     cardDone.setVisibility(View.VISIBLE);
 
                     handler.postDelayed(run, 300);
-
-//                    cardDone.setVisibility(View.INVISIBLE);
-//                    mContentView.setBackgroundColor(Color.parseColor("#0099cc"));
-//                    quizQuestionField.setBackgroundColor(Color.parseColor("#0099cc"));
-                    quizQuestionField.setText(categories[category - 1][index]);
-                    index++;
+                    changeQuestion(randomQuestion(category));
                 }
-                if (index == categories[0].length) {
+
+                if (index == maxIndex) {
                     mControlsView.setVisibility(View.INVISIBLE);
                     gameWon.setVisibility(View.VISIBLE);
                     finish();
-
                 }
             }
 
@@ -238,9 +233,6 @@ public class QuizActivity extends AppCompatActivity {
             }
         }.start();
 
-        quizQuestionField.setText(category + "");
-        //TODO: make randomized question code here
-
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -248,13 +240,23 @@ public class QuizActivity extends AppCompatActivity {
         });
     }
 
+    private String randomQuestion(int category) {
+        Random random = new Random();
+        int rand = random.nextInt(maxIndex);
+        while(doneIndexes[rand]){
+            rand = random.nextInt(maxIndex);
+        }
+        index++;
+        doneIndexes[rand] = true;
+        return categories[category-1][rand];
+    }
 
     private void changeQuestion(String text){
         Animation flipIn = AnimationUtils.loadAnimation(this, R.anim.flip_in);
         Animation flipOut = AnimationUtils.loadAnimation(this, R.anim.flip_out);
-        quizQuestionField.setAnimation(flipOut);
+        //quizQuestionField.setAnimation(flipOut);
         quizQuestionField.setText(text);
-        quizQuestionField.startAnimation(flipIn);
+        //quizQuestionField.startAnimation(flipIn);
     }
 
 }
