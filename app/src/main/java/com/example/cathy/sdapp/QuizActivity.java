@@ -1,6 +1,7 @@
 package com.example.cathy.sdapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -8,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,14 +29,14 @@ public class QuizActivity extends AppCompatActivity {
 
     // initialize private vars
     private View mContentView;
-    private TextView quizQuestionField, quizTimer, cardDone, gameOver, gameWon;
+    private TextView quizQuestionField, quizTimer, quizScore, cardDone, gameOver, gameWon;
     private View mControlsView;
     private SensorManager mSensorManager;
     private Sensor accelerometer;
     private Sensor magnetometer;
     private Boolean finished = false;
     private float startPos = 0;
-    private int index = 0, maxIndex;
+    private int index = 0, maxIndex, score = -1;
     private boolean[] doneIndexes;
     public String[] cat1 = {"Object",
             "Class",
@@ -148,7 +150,7 @@ public class QuizActivity extends AppCompatActivity {
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         Intent intent = getIntent();
-        final int category = intent.getIntExtra("CATEGORY", 0);
+        final int category = intent.getIntExtra("CATEGORY", 0) - 1;
         maxIndex = categories[category].length;
         doneIndexes = new boolean[maxIndex];
         Arrays.fill(doneIndexes, false);
@@ -162,7 +164,10 @@ public class QuizActivity extends AppCompatActivity {
         gameOver.setVisibility(View.INVISIBLE);
         gameWon.setVisibility(View.INVISIBLE);
         quizTimer = (TextView) findViewById(R.id.quiz_timer);
+        quizScore = (TextView) findViewById(R.id.quiz_score);
 
+
+        increaseScore();
         changeQuestion(randomQuestion(category));
 
         // hide status bar
@@ -192,6 +197,7 @@ public class QuizActivity extends AppCompatActivity {
                     public void run() {
                         cardDone.setVisibility(View.INVISIBLE);
                         mControlsView.setVisibility(View.VISIBLE);
+                        increaseScore();
                     }
                 };
 
@@ -199,15 +205,23 @@ public class QuizActivity extends AppCompatActivity {
                     tiltReset = false;
                     mControlsView.setVisibility(View.INVISIBLE);
                     cardDone.setVisibility(View.VISIBLE);
-
-                    handler.postDelayed(run, 300);
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    v.vibrate(100);
+                    handler.postDelayed(run, 500);
                     changeQuestion(randomQuestion(category));
                 }
 
                 if (index == maxIndex) {
                     mControlsView.setVisibility(View.INVISIBLE);
                     gameWon.setVisibility(View.VISIBLE);
-                    finish();
+                    gameWon.setText("Finished!\nScore: " + score);
+                    finished = true;
+                    gameWon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    });
                 }
             }
 
@@ -228,8 +242,13 @@ public class QuizActivity extends AppCompatActivity {
                 mControlsView.setVisibility(View.INVISIBLE);
                 finished = true;
                 gameOver.setVisibility(View.VISIBLE);
-                finish();
-
+                gameOver.setText("Time's Up!\nScore: " + score);
+                gameOver.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
             }
         }.start();
 
@@ -248,7 +267,7 @@ public class QuizActivity extends AppCompatActivity {
         }
         index++;
         doneIndexes[rand] = true;
-        return categories[category-1][rand];
+        return categories[category][rand];
     }
 
     private void changeQuestion(String text){
@@ -259,4 +278,8 @@ public class QuizActivity extends AppCompatActivity {
         //quizQuestionField.startAnimation(flipIn);
     }
 
+    private void increaseScore(){
+        if(!finished) score++;
+        quizScore.setText("Score: " + score);
+    }
 }

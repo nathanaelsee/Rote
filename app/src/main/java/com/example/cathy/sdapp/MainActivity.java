@@ -22,15 +22,7 @@ import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 import android.os.Vibrator;
 
-public class MainActivity extends AppCompatActivity{
-
-    private SensorManager mSensorManager;
-    private Activity mActivity;
-    private float mAccelX = 0;
-    private float mAccelY = 0;
-    private float mAccelZ = 0;
-    private float mGround = 0;
-    public Vibrator v;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +35,11 @@ public class MainActivity extends AppCompatActivity{
                 goToSecondActivity();
             }
         });
-
-        v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-
     }
 
     private void goToSecondActivity() {
         Intent intent = new Intent(this, SecondActivity.class);
         startActivity(intent);
     }
-}
+
+ }
