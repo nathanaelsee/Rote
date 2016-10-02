@@ -22,7 +22,7 @@ import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 import android.os.Vibrator;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity{
 
     private SensorManager mSensorManager;
     private Activity mActivity;
@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private float mAccelZ = 0;
     private float mGround = 0;
     public Vibrator v;
-
-//    TextView tvHeading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,78 +44,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        mSensorManager.registerListener(this,mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_GAME);
 
         v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
-//        tvHeading = (TextView) findViewById(R.id.tvHeading);
     }
 
     private void goToSecondActivity() {
         Intent intent = new Intent(this, SecondActivity.class);
         startActivity(intent);
-    }
-
-    private final SensorEventListener mSenseAcc = new SensorEventListener() {
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            //do later
-        }
-
-        public void onSensorChanged(int sensor, float[] values) {
-//            mAccelX = values[0];
-//            mAccelY = values[1];
-//            mAccelZ = values[2];
-        }
-
-        public void onSensorChanged(SensorEvent senEvent) {
-//            mAccelX = senEvent.values[0];
-//            mAccelY = senEvent.values[1];
-//            mAccelZ = senEvent.values[2];
-//
-//            if (mAccelZ > mGround+2) {
-//                v.vibrate(100);
-//            }
-        }
-    };
-
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //do later
-    }
-
-
-    public void onSensorChanged(int sensor, float[] values) {
-        mAccelX = values[0];
-        mAccelY = values[1];
-        mAccelZ = values[2];
-    }
-
-    public void onSensorChanged(SensorEvent senEvent) {
-        mAccelX = senEvent.values[0];
-        mAccelY = senEvent.values[1];
-        mAccelZ = senEvent.values[2];
-
-        if (mAccelZ > mGround+2) {
-            v.vibrate(100);
-
-//            tvHeading.setText("Rotated");
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // for the system's orientation sensor registered listeners
-        mSensorManager.registerListener(this,   mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_GAME);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // to stop the listener and save battery
-        mSensorManager.unregisterListener(this);
     }
 }

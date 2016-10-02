@@ -183,7 +183,7 @@ public class QuizActivity extends AppCompatActivity {
                 int rawZ = (int) event.values[2];
                 int zTilt = rawZ / 5;
 
-                if(!tiltReset && zTilt==0 && index!=categories[0].length) {tiltReset=true;}
+                if(!tiltReset && zTilt==0 && !finished) {tiltReset=true;}
 
                 final Handler handler = new Handler();
 
@@ -210,6 +210,7 @@ public class QuizActivity extends AppCompatActivity {
                 }
                 if (index == categories[0].length) {
                     mControlsView.setVisibility(View.INVISIBLE);
+                    finished = true;
                     gameWon.setVisibility(View.VISIBLE);
                     finish();
 
@@ -230,8 +231,8 @@ public class QuizActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                mControlsView.setVisibility(View.INVISIBLE);
                 finished = true;
+                mControlsView.setVisibility(View.INVISIBLE);
                 gameOver.setVisibility(View.VISIBLE);
                 finish();
 
