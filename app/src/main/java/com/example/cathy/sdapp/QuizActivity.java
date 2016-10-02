@@ -28,15 +28,12 @@ import java.util.Random;
 public class QuizActivity extends AppCompatActivity {
 
     // initialize private vars
-    private View mContentView;
-    private TextView quizQuestionField, quizTimer, quizScore, cardDone, gameOver, gameWon, skipCard;
-    private View mControlsView;
+    private View topBarView, questionView;
+    private TextView quizQuestionTextView, quizTimer, quizScore, flashSuccessScreen, timeOutScreen, gameWinScreen, flashSkipScreen;
     private SensorManager mSensorManager;
     private Sensor accelerometer;
-    private Sensor magnetometer;
     private Boolean finished = false;
-    private float startPos = 0;
-    private int index = 0, maxIndex, score = -1;
+    private int maxIndex, score = -1, zTilt = 0, tickCD = 0;
     private boolean[] doneIndexes;
     public String[] cat1 = {"Object",
             "Class",
@@ -135,7 +132,7 @@ public class QuizActivity extends AppCompatActivity {
             "Expression",
             "Primitive"};
     public String[][] categories = {cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8};
-    boolean tiltReset = true;
+    boolean tiltReset = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,8 +140,8 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         // set vars
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
+        topBarView = findViewById(R.id.fullscreen_content_controls);
+        questionView = findViewById(R.id.fullscreen_content);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -156,24 +153,24 @@ public class QuizActivity extends AppCompatActivity {
         Arrays.fill(doneIndexes, false);
 
 
-        quizQuestionField = (TextView) findViewById(R.id.quiz_question);
-        cardDone = (TextView) findViewById(R.id.green_screen);
-        gameOver = (TextView) findViewById(R.id.game_lost);
-        gameWon = (TextView) findViewById(R.id.game_won);
-        skipCard = (TextView) findViewById(R.id.skip_card);
-        skipCard.setVisibility(View.INVISIBLE);
-        cardDone.setVisibility(View.INVISIBLE);
-        gameOver.setVisibility(View.INVISIBLE);
-        gameWon.setVisibility(View.INVISIBLE);
+        quizQuestionTextView = (TextView) findViewById(R.id.quiz_question);
+        flashSuccessScreen = (TextView) findViewById(R.id.green_screen);
+        timeOutScreen = (TextView) findViewById(R.id.game_lost);
+        gameWinScreen = (TextView) findViewById(R.id.game_won);
+        flashSkipScreen= (TextView) findViewById(R.id.skip_card);
+        flashSkipScreen.setVisibility(View.INVISIBLE);
+        flashSuccessScreen.setVisibility(View.INVISIBLE);
+        timeOutScreen.setVisibility(View.INVISIBLE);
+        gameWinScreen.setVisibility(View.INVISIBLE);
         quizTimer = (TextView) findViewById(R.id.quiz_timer);
         quizScore = (TextView) findViewById(R.id.quiz_score);
 
 
         increaseScore();
-        changeQuestion(randomQuestion(category));
+        changeQuestion(randomQuestion(category, true));
 
         // hide status bar
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+        questionView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -181,87 +178,93 @@ public class QuizActivity extends AppCompatActivity {
 
 
         SensorEventListener mSensorEventListener = new SensorEventListener() {
+            /* zTilt: positive -> screen facing up
+             *        zero -> vertical
+             *        negative -> screen facing down
+             */
             @Override
             public void onSensorChanged(SensorEvent event) {
-               /* zTilt: positive -> screen facing up
-                         zero -> vertical
-                         negative -> screen facing down
-                */
-                int rawZ = (int) event.values[2];
-                final int zTilt = rawZ / 5;
-
-                if(!tiltReset && zTilt == 0 && index < maxIndex) {tiltReset=true;}
-
-                final Handler handler = new Handler();
-
-                Runnable run = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (zTilt < 0) {
-                            cardDone.setVisibility(View.INVISIBLE);
-                            mControlsView.setVisibility(View.VISIBLE);
-                            increaseScore();
-                        } else if (zTilt > 0) {
-                            skipCard.setVisibility(View.INVISIBLE);
-                            mControlsView.setVisibility(View.VISIBLE);
-                        }
-                    }
-                };
-
-
-                if (!finished && zTilt < 0 && tiltReset && index < maxIndex) {
-                    tiltReset = false;
-                    mControlsView.setVisibility(View.INVISIBLE);
-                    cardDone.setVisibility(View.VISIBLE);
-                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    v.vibrate(100);
-                    handler.postDelayed(run, 500);
-                    changeQuestion(randomQuestion(category));
-                }
-
-                if (!finished && zTilt > 0 && tiltReset && index < maxIndex) {
-                    tiltReset = false;
-                    mControlsView.setVisibility(View.INVISIBLE);
-                    skipCard.setVisibility(View.VISIBLE);
-                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    v.vibrate(100);
-                    handler.postDelayed(run, 500);
-                    changeQuestion(randomQuestion(category));
-                }
-
-                if (index == maxIndex) {
-                    mControlsView.setVisibility(View.INVISIBLE);
-                    gameWon.setVisibility(View.VISIBLE);
-                    gameWon.setText("Finished!\nScore: " + score);
-                    finished = true;
-                    gameWon.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            finish();
-                        }
-                    });
-                }
+                zTilt = (int) event.values[2] - 1;
             }
-
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
             }
         };
         mSensorManager.registerListener(mSensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
 
-        CountDownTimer countdown = new CountDownTimer(60000, 1000) {
+        CountDownTimer countdown = new CountDownTimer(60000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
+
+                // definitions
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 quizTimer.setText("" + millisUntilFinished/1000);
+                final Handler handler = new Handler();
+
+                Runnable flashSuccess = new Runnable() {
+                    @Override
+                    public void run() {
+                        flashSuccessScreen.setVisibility(View.INVISIBLE);
+                        topBarView.setVisibility(View.VISIBLE);
+                    }
+                };
+
+                Runnable flashSkip = new Runnable() {
+                    @Override
+                    public void run() {
+                        flashSkipScreen.setVisibility(View.INVISIBLE);
+                        topBarView.setVisibility(View.VISIBLE);
+                    }
+                };
+
+                // checking conditionals
+                if(!tiltReset && zTilt/2 == 0) tiltReset=true;
+
+                if(score == maxIndex && !finished){
+                    // scored all cards
+                    finished = true;
+
+                    topBarView.setVisibility(View.INVISIBLE);
+                    gameWinScreen.setVisibility(View.VISIBLE);
+                    gameWinScreen.setText("Finished!\nScore: " + score + "\nTime Left: " + millisUntilFinished/1000);
+                    gameWinScreen.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    });
+                }
+
+                // time not over and cards not finished - time to check for tilt
+
+                if(!finished && zTilt > 5 && tiltReset) {
+                    // face up after reset - skip
+                    handler.postDelayed(flashSkip, 500);
+                    tiltReset = false;
+                    topBarView.setVisibility(View.INVISIBLE);
+                    flashSkipScreen.setVisibility(View.VISIBLE);
+                    v.vibrate(100);
+                    changeQuestion(randomQuestion(category, true));
+                }
+
+                if(!finished && zTilt < -5 && tiltReset) {
+                    // face down after reset - success
+                    handler.postDelayed(flashSuccess, 500);
+                    tiltReset = false;
+                    topBarView.setVisibility(View.INVISIBLE);
+                    flashSuccessScreen.setVisibility(View.VISIBLE);
+                    v.vibrate(100);
+                    changeQuestion(randomQuestion(category, false));
+                }
             }
 
             @Override
             public void onFinish() {
-                mControlsView.setVisibility(View.INVISIBLE);
+                topBarView.setVisibility(View.INVISIBLE);
                 finished = true;
-                gameOver.setVisibility(View.VISIBLE);
-                gameOver.setText("Time's Up!\nScore: " + score);
-                gameOver.setOnClickListener(new View.OnClickListener() {
+                gameWinScreen.setVisibility(View.VISIBLE);
+                gameWinScreen.setText("Time's Up!\nScore: " + score);
+                gameWinScreen.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         finish();
@@ -269,22 +272,18 @@ public class QuizActivity extends AppCompatActivity {
                 });
             }
         }.start();
-
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
     }
 
-    private String randomQuestion(int category) {
+    private String randomQuestion(int category, boolean skip) {
         Random random = new Random();
         int rand = random.nextInt(maxIndex);
         while(doneIndexes[rand]){
             rand = random.nextInt(maxIndex);
         }
-        index++;
-        doneIndexes[rand] = true;
+        if(!skip) {
+            increaseScore();
+            doneIndexes[rand] = true;
+        }
         return categories[category][rand];
     }
 
@@ -292,7 +291,7 @@ public class QuizActivity extends AppCompatActivity {
         Animation flipIn = AnimationUtils.loadAnimation(this, R.anim.flip_in);
         Animation flipOut = AnimationUtils.loadAnimation(this, R.anim.flip_out);
         //quizQuestionField.setAnimation(flipOut);
-        quizQuestionField.setText(text);
+        quizQuestionTextView.setText(text);
         //quizQuestionField.startAnimation(flipIn);
     }
 
