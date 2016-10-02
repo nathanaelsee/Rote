@@ -33,6 +33,18 @@
         android:textStyle="bold"/>
 
     <TextView
+        android:id="@+id/skip_card"
+        android:background="#B266FF"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:text="Skip"
+        android:textColor="#BFFF"
+        android:textSize="50sp"
+        android:textStyle="bold"/>
+
+    <TextView
         android:id="@+id/game_lost"
         android:background="#CC0000"
         android:layout_width="match_parent"

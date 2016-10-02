@@ -29,7 +29,7 @@ public class QuizActivity extends AppCompatActivity {
 
     // initialize private vars
     private View mContentView;
-    private TextView quizQuestionField, quizTimer, quizScore, cardDone, gameOver, gameWon;
+    private TextView quizQuestionField, quizTimer, quizScore, cardDone, gameOver, gameWon, skipCard;
     private View mControlsView;
     private SensorManager mSensorManager;
     private Sensor accelerometer;
@@ -160,6 +160,8 @@ public class QuizActivity extends AppCompatActivity {
         cardDone = (TextView) findViewById(R.id.green_screen);
         gameOver = (TextView) findViewById(R.id.game_lost);
         gameWon = (TextView) findViewById(R.id.game_won);
+        skipCard = (TextView) findViewById(R.id.skip_card);
+        skipCard.setVisibility(View.INVISIBLE);
         cardDone.setVisibility(View.INVISIBLE);
         gameOver.setVisibility(View.INVISIBLE);
         gameWon.setVisibility(View.INVISIBLE);
@@ -186,7 +188,7 @@ public class QuizActivity extends AppCompatActivity {
                          negative -> screen facing down
                 */
                 int rawZ = (int) event.values[2];
-                int zTilt = rawZ / 5;
+                final int zTilt = rawZ / 5;
 
                 if(!tiltReset && zTilt == 0 && index < maxIndex) {tiltReset=true;}
 
@@ -195,16 +197,32 @@ public class QuizActivity extends AppCompatActivity {
                 Runnable run = new Runnable() {
                     @Override
                     public void run() {
-                        cardDone.setVisibility(View.INVISIBLE);
-                        mControlsView.setVisibility(View.VISIBLE);
-                        increaseScore();
+                        if (zTilt < 0) {
+                            cardDone.setVisibility(View.INVISIBLE);
+                            mControlsView.setVisibility(View.VISIBLE);
+                            increaseScore();
+                        } else if (zTilt > 0) {
+                            skipCard.setVisibility(View.INVISIBLE);
+                            mControlsView.setVisibility(View.VISIBLE);
+                        }
                     }
                 };
+
 
                 if (!finished && zTilt < 0 && tiltReset && index < maxIndex) {
                     tiltReset = false;
                     mControlsView.setVisibility(View.INVISIBLE);
                     cardDone.setVisibility(View.VISIBLE);
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    v.vibrate(100);
+                    handler.postDelayed(run, 500);
+                    changeQuestion(randomQuestion(category));
+                }
+
+                if (!finished && zTilt > 0 && tiltReset && index < maxIndex) {
+                    tiltReset = false;
+                    mControlsView.setVisibility(View.INVISIBLE);
+                    skipCard.setVisibility(View.VISIBLE);
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     v.vibrate(100);
                     handler.postDelayed(run, 500);
