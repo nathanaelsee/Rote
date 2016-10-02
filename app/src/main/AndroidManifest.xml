@@ -29,5 +29,6 @@
                 android:value="com.example.cathy.sdapp.SecondActivity" />
         </activity>
     </application>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.example.cathy.sdapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -8,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -203,14 +205,16 @@ public class QuizActivity extends AppCompatActivity {
                     tiltReset = false;
                     mControlsView.setVisibility(View.INVISIBLE);
                     cardDone.setVisibility(View.VISIBLE);
-
-                    handler.postDelayed(run, 300);
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    v.vibrate(100);
+                    handler.postDelayed(run, 500);
                     changeQuestion(randomQuestion(category));
                 }
 
                 if (index == maxIndex) {
                     mControlsView.setVisibility(View.INVISIBLE);
                     gameWon.setVisibility(View.VISIBLE);
+                    gameWon.setText("Finished!\nScore: " + score);
                     finished = true;
                     gameWon.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -238,6 +242,7 @@ public class QuizActivity extends AppCompatActivity {
                 mControlsView.setVisibility(View.INVISIBLE);
                 finished = true;
                 gameOver.setVisibility(View.VISIBLE);
+                gameOver.setText("Time's Up!\nScore: " + score);
                 gameOver.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -274,7 +279,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void increaseScore(){
-        score++;
+        if(!finished) score++;
         quizScore.setText("Score: " + score);
     }
 }
