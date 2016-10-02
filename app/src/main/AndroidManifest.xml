@@ -15,19 +15,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".SecondActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".QuizActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_quiz"
             android:parentActivityName=".SecondActivity"
-            android:theme="@style/FullscreenTheme"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cathy.sdapp.SecondActivity" />
         </activity>
+        <activity android:name=".ThirdActivity"></activity>
     </application>
 
 </manifest>

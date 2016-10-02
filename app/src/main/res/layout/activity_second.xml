@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_second"
@@ -15,22 +19,22 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:layout_margin="16dp"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/menu_cat1"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:text="Object Oriented Programming" />
 
         <Button
             android:text="Run Times"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/menu_cat2"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:layout_margin="16dp"/>
     </LinearLayout>
 
@@ -38,22 +42,22 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:text="Recursion"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/menu_cat3"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:layout_margin="16dp"/>
 
         <Button
             android:text="Optimization"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/menu_cat4"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:layout_margin="16dp"/>
     </LinearLayout>
 
@@ -61,22 +65,22 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:text="Inheritance"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/menu_cat5"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:layout_margin="16dp"/>
 
         <Button
             android:text="Git Commands"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/menu_cat6"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:layout_margin="16dp"/>
     </LinearLayout>
 
@@ -84,14 +88,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:text="Computational Complexity"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/menu_cat7"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:layout_margin="16dp"/>
 
         <Button
@@ -99,8 +103,11 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:id="@+id/menu_cat8"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:layout_margin="16dp"/>
+
+
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-
         v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
     }
