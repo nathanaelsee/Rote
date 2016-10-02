@@ -24,11 +24,112 @@ public class QuizActivity extends AppCompatActivity {
 
     // initialize private vars
     private View mContentView;
-    private TextView quizQuestionField, quizTimer;
+    private TextView quizQuestionField, quizTimer, cardDone, gameOver, gameWon;
     private View mControlsView;
     private SensorManager mSensorManager;
     private Sensor accelerometer;
     private Sensor magnetometer;
+    public Boolean finished = false;
+    public float startPos = 0;
+    public int index = 0;
+    public String[] cat1 = {"Object",
+            "Class",
+            "Inheritance",
+            "Superclass",
+            "Subclass",
+            "Member",
+            "Method",
+            "Getters and Setters",
+            "Accessors and Mutators",
+            "Public",
+            "Private",
+            "Protected"};
+    public String[] cat2 = {"Insertion Best",
+            "Insertion Worst",
+            "Selection Sort Best",
+            "Selection Sort Worst",
+            "Bubble Sort Worst",
+            "Bubble Sort Best",
+            "Quicksort Best",
+            "Quicksort Worst",
+            "Merge Sort Best",
+            "Binary Search Worst",
+            "Linear Search Worst",
+            "Linear Search Best"};
+    public String[] cat3 = {"Recursion",
+            "Recursive method",
+            "Base case",
+            "Termination condition",
+            "Infinite recursion",
+            "Recursive call",
+            "Levels of recursion",
+            "System stack",
+            "Tail recursive method",
+            "Tree Recursion",
+            "Rule 1",
+            "Rule 2"};
+    public String[] cat4 = {"Artificial Intelligence",
+            "Breadth First Search",
+            "Genetic Algorithms",
+            "Large Neighborhood Search",
+            "Local Search",
+            "Long Term Memory",
+            "Simulated Annealing",
+            "Short Term Memory",
+            "Tabu Search",
+            "Operation Research",
+            "Explicit memory",
+            "Attributive memory"};
+    public String[] cat5 = {"Inheritance",
+            "Extend",
+            "Superclass",
+            "Subclass",
+            "Override",
+            "Overload",
+            "Super",
+            "Abstract class",
+            "Polymorphic method",
+            "Static binding",
+            "Class cast exception",
+            "Interface"};
+    public String[] cat6 = {"Git init",
+            "Git status",
+            "Git add",
+            "Git diff",
+            "Git commit",
+            "Git log",
+            "Git merge branch_name",
+            "Git branch –d branch_name",
+            "Git clone",
+            "Git remote –v",
+            "Git fetch",
+            "Git merge origin/master"};
+    public String[] cat7 = {"Random access machine",
+            "Step",
+            "Best-case running time",
+            "Worst-case running time",
+            "Asymptotic notation",
+            "Big O notation",
+            "Tight bound",
+            "Constant complexity",
+            "Logarithmic complexity",
+            "Linear complexity",
+            "Polynomial complexity",
+            "Exponential complexity"};
+    public String[] cat8 = {"Byte",
+            "Short",
+            "Int",
+            "Long",
+            "Float",
+            "Double",
+            "Char",
+            "Boolean",
+            "Constant",
+            "Floating point data types",
+            "Expression",
+            "Primitive"};
+    public String[][] categories = {cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8};
+
 
     private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
         @Override
@@ -36,6 +137,8 @@ public class QuizActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    boolean tiltReset = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +153,16 @@ public class QuizActivity extends AppCompatActivity {
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         Intent intent = getIntent();
-        int category = intent.getIntExtra("CATEGORY", 0);
+        final int category = intent.getIntExtra("CATEGORY", 0);
         quizQuestionField = (TextView) findViewById(R.id.quiz_question);
+        cardDone = (TextView) findViewById(R.id.green_screen);
+        gameOver = (TextView) findViewById(R.id.game_lost);
+        gameWon = (TextView) findViewById(R.id.game_won);
+        cardDone.setVisibility(View.INVISIBLE);
+        gameOver.setVisibility(View.INVISIBLE);
+        gameWon.setVisibility(View.INVISIBLE);
+        quizQuestionField.setText(categories[category][index]);
+        index ++;
         quizTimer = (TextView) findViewById(R.id.quiz_timer);
 
         // hide status bar
@@ -70,10 +181,39 @@ public class QuizActivity extends AppCompatActivity {
                          negative -> screen facing down
                 */
                 int rawZ = (int) event.values[2];
-                int zTilt = (int) rawZ / 3 ;
-                zTilt %=2;
-                quizQuestionField.setText(zTilt+" "+rawZ);
+                int zTilt = rawZ / 5;
 
+                if(!tiltReset && zTilt==0 && index!=categories[0].length) {tiltReset=true;}
+
+                final Handler handler = new Handler();
+
+                Runnable run = new Runnable() {
+                    @Override
+                    public void run() {
+                        cardDone.setVisibility(View.INVISIBLE);
+                        mControlsView.setVisibility(View.VISIBLE);
+                    }
+                };
+
+                if ((!finished && zTilt < 0) && tiltReset && (index < categories[0].length)) {
+                    tiltReset = false;
+                    mControlsView.setVisibility(View.INVISIBLE);
+                    cardDone.setVisibility(View.VISIBLE);
+
+                    handler.postDelayed(run, 300);
+
+//                    cardDone.setVisibility(View.INVISIBLE);
+//                    mContentView.setBackgroundColor(Color.parseColor("#0099cc"));
+//                    quizQuestionField.setBackgroundColor(Color.parseColor("#0099cc"));
+                    quizQuestionField.setText(categories[category - 1][index]);
+                    index++;
+                }
+                if (index == categories[0].length) {
+                    mControlsView.setVisibility(View.INVISIBLE);
+                    gameWon.setVisibility(View.VISIBLE);
+                    finish();
+
+                }
             }
 
             @Override
@@ -91,8 +231,10 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 mControlsView.setVisibility(View.INVISIBLE);
-                mContentView.setBackgroundColor(Color.RED);
-                changeQuestion("Time's Up!");
+                finished = true;
+                gameOver.setVisibility(View.VISIBLE);
+                finish();
+
             }
         }.start();
 
