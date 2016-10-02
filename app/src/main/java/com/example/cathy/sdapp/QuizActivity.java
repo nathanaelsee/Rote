@@ -260,9 +260,10 @@ public class QuizActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                topBarView.setVisibility(View.INVISIBLE);
+                // time up
                 finished = true;
                 gameWinScreen.setVisibility(View.VISIBLE);
+                topBarView.setVisibility(View.INVISIBLE);
                 gameWinScreen.setText("Time's Up!\nScore: " + score);
                 gameWinScreen.setOnClickListener(new View.OnClickListener() {
                     @Override
