@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -7,13 +8,23 @@
     android:orientation="vertical"
     tools:context="com.example.cathy.sdapp.MainActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        app:srcCompat="@drawable/icon1"
+        android:id="@+id/imageView"
+        android:background="#333F51B5" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="#333F51B5"
+        android:padding="16dp"
         android:text="Welcome!\n\nRote is a gamified flash card review app for studying!\n\nTry it out!"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/textView"
         android:gravity="center" />
