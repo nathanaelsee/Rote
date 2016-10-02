@@ -27,7 +27,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:keepScreenOn="true"
-        android:text="Success!"
+        android:text="Correct!"
         android:textColor="#BFFF"
         android:textSize="50sp"
         android:textStyle="bold"/>

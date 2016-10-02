@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SDApp</string>
+    <string name="app_name">Rote</string>
 
     <string name="title_activity_quiz">QuizActivity</string>
     <string name="dummy_button">Dummy Button</string>
