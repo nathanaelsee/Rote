@@ -2,11 +2,11 @@
 
 Description
 -----------
-Rote is a Java app written at SDHacks 2016. It uses a phone's accelerometer
-to flash through cards displayed on the screen.  Each card features a CS
-term or idea that students can test their knowledge on.  
+Rote is an Android app, started as a hack at SDHacks 2016. 
+It uses a phone's accelerometer to flash through cards displayed on the screen.
+Using the same concept in the game Heads Up!, flash card review is gamified.
 
-Authors
+Creators
 -----------
-Cathy Pham-Le, Nathaniel See, Joshua Zeitsoff
+Nathanael See, Joshua Zeitsoff, Cathy Pham-Le 
   
