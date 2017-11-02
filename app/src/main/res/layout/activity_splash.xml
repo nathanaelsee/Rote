@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.cathy.sdapp.MainActivity">
+    tools:context="com.nathanaelsee.rote.SplashActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -14,7 +13,6 @@
         android:layout_weight="1"
         android:padding="16dp"
         app:srcCompat="@drawable/icon1"
-        android:id="@+id/imageView"
         android:background="#333F51B5" />
 
     <TextView
@@ -26,7 +24,6 @@
         android:text="Welcome!\n\nRote is a gamified flash card review app for studying!\n\nTry it out!"
         android:textSize="20dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:id="@+id/textView"
         android:gravity="center" />
 
     <Button

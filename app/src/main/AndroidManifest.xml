@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cathy.sdapp">
+    package="com.nathanaelsee.rote">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:screenOrientation="portrait">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.nathanaelsee.rote.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,20 +17,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SecondActivity"
+            android:name="com.nathanaelsee.rote.CardPackListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".QuizActivity"
+            android:name="com.nathanaelsee.rote.QuizActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_quiz"
-            android:parentActivityName=".SecondActivity"
+            android:parentActivityName="com.nathanaelsee.rote.CardPackListActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cathy.sdapp.SecondActivity" />
+                android:value="com.nathanaelsee.rote.CardPackListActivity" />
         </activity>
-        <activity android:name=".ThirdActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.VIBRATE" />
 

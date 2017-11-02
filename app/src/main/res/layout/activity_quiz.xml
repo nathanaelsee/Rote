@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#0099cc"
     android:id="@+id/fullscreen_content"
-    tools:context="com.example.cathy.sdapp.QuizActivity">
+    tools:context="com.nathanaelsee.rote.QuizActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
