@@ -186,14 +186,14 @@ public class QuizActivity extends AppCompatActivity {
             }
         };
         mSensorManager.registerListener(mSensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        final Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        CountDownTimer countdown = new CountDownTimer(60000, 100) {
+        new CountDownTimer(60000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
 
                 // definitions
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                quizTimer.setText("" + millisUntilFinished/1000);
+                if(!finished) quizTimer.setText("" + millisUntilFinished/1000);
                 final Handler handler = new Handler();
 
                 Runnable flashSuccess = new Runnable() {
@@ -221,7 +221,7 @@ public class QuizActivity extends AppCompatActivity {
 
                     topBarView.setVisibility(View.INVISIBLE);
                     gameWinScreen.setVisibility(View.VISIBLE);
-                    gameWinScreen.setText("Finished!\nScore: " + score + "\nTime Left: " + millisUntilFinished/1000);
+                    gameWinScreen.setText(String.format(getString(R.string.finished), score, millisUntilFinished / 1000));
                     gameWinScreen.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -256,16 +256,17 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 // time up
-                finished = true;
-                gameWinScreen.setVisibility(View.VISIBLE);
-                topBarView.setVisibility(View.INVISIBLE);
-                gameWinScreen.setText("Time's Up!\nScore: " + score);
-                gameWinScreen.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
+                if(finished) {
+                    gameWinScreen.setVisibility(View.VISIBLE);
+                    topBarView.setVisibility(View.INVISIBLE);
+                    gameWinScreen.setText(String.format(getString(R.string.time_up), score));
+                    gameWinScreen.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    });
+                }
             }
         }.start();
     }
