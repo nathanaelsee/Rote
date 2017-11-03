@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Rote</string>
-    <string name="finished">Finished!\nScore: %d\nTime Left: %d</string>string>
+
     <string name="title_activity_quiz">QuizActivity</string>
-    <string name="time_up">Time\'s Up!\n Score: %d</string>
+
+    <string name="quiz_activity_finished">Finished!\nScore: %d\nTime Left: %d</string>string>
+    <string name="quiz_activity_time_up">Time\'s Up!\n Score: %d</string>
+    <string name="quiz_activity_score">Score: %d/%d</string>
 </resources>

@@ -9,16 +9,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:screenOrientation="portrait">
-        <activity android:name="com.nathanaelsee.rote.SplashActivity">
+
+        <activity android:name="com.nathanaelsee.rote.SplashActivity"
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
         <activity
             android:name="com.nathanaelsee.rote.CardPackListActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name="com.nathanaelsee.rote.QuizActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -26,10 +32,13 @@
             android:parentActivityName="com.nathanaelsee.rote.CardPackListActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/FullscreenTheme">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nathanaelsee.rote.CardPackListActivity" />
+
         </activity>
+
     </application>
     <uses-permission android:name="android.permission.VIBRATE" />
 

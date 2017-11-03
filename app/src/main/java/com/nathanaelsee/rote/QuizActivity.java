@@ -213,7 +213,7 @@ public class QuizActivity extends AppCompatActivity {
                 };
 
                 // checking conditionals
-                if(!tiltReset && zTilt/2 == 0) tiltReset=true;
+                if(!tiltReset && zTilt/2 == 0) tiltReset = true;
 
                 if(score == maxIndex && !finished){
                     // scored all cards
@@ -221,7 +221,7 @@ public class QuizActivity extends AppCompatActivity {
 
                     topBarView.setVisibility(View.INVISIBLE);
                     gameWinScreen.setVisibility(View.VISIBLE);
-                    gameWinScreen.setText(String.format(getString(R.string.finished), score, millisUntilFinished / 1000));
+                    gameWinScreen.setText(String.format(getString(R.string.quiz_activity_finished), score, millisUntilFinished / 1000));
                     gameWinScreen.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -256,10 +256,10 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 // time up
-                if(finished) {
+                if(!finished) {
                     gameWinScreen.setVisibility(View.VISIBLE);
                     topBarView.setVisibility(View.INVISIBLE);
-                    gameWinScreen.setText(String.format(getString(R.string.time_up), score));
+                    gameWinScreen.setText(String.format(getString(R.string.quiz_activity_time_up), score));
                     gameWinScreen.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -294,6 +294,6 @@ public class QuizActivity extends AppCompatActivity {
 
     private void increaseScore(){
         if(!finished) score++;
-        quizScore.setText("Score: " + score);
+        quizScore.setText(String.format(getString(R.string.quiz_activity_score), score, maxIndex));
     }
 }
